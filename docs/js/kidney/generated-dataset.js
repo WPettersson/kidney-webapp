@@ -1,5 +1,6 @@
 function GeneratedDataset() {
   this.data = [];
+  this.recipients = [];
 }
 
 GeneratedDataset.prototype.readInputString = function(s) {
@@ -81,6 +82,10 @@ GeneratedDataset.prototype.readXmlString = function(s) {
   }
 };
 
+GeneratedDataset.prototype.addRecipient = function(recipient) {
+  this.recipients.push(recipient);
+};
+
 GeneratedDataset.prototype.addDonor = function(donor) {
   this.data.push(donor);
 };
@@ -105,7 +110,7 @@ GeneratedDataset.prototype.toCompactString = function() {
   }
   return tokens.join(" ");
 }
-GeneratedDataset.prototype.toJsonString = function() {
+GeneratedDataset.prototype.toJsonString = function(fullDetails) {
   var dataObj = {};
   for (var i=0; i<this.data.length; i++) {
     var donor = this.getDonorAt(i);
@@ -123,9 +128,23 @@ GeneratedDataset.prototype.toJsonString = function() {
         return {recipient: d.recipient.id, score: d.score};
       });
     }
+    if (fullDetails) {
+      donorObj.bloodtype = donor.bt.type;
+    }
     dataObj[""+donor.id] = donorObj;
   }
   var serializedObj = {data: dataObj};
+  if (fullDetails) {
+    var recipsObj = {};
+    for (var i=0; i < this.recipients.length; i++) {
+      var recipObj = {};
+      recipObj.cPRA = this.recipients[i].crf;
+      recipObj.bloodtype = this.recipients[i].bt.type;
+      recipObj.hasBloodCompatibleDonor = this.recipients[i].hasBloodCompatibleDonor;
+      recipsObj[""+this.recipients[i].id] = recipObj;
+    }
+    serializedObj.recipients = recipsObj;
+  }
   return JSON.stringify(serializedObj, undefined, 2);
 }
 GeneratedDataset.prototype.createXmlNode = function(doc, n, t) {
@@ -134,7 +153,7 @@ GeneratedDataset.prototype.createXmlNode = function(doc, n, t) {
   node.appendChild(textNode);
   return node;
 }
-GeneratedDataset.prototype.toXmlString = function() {
+GeneratedDataset.prototype.toXmlString = function(fullDetails) {
   var self = this;
   var doc = document.implementation.createDocument(null, null, null);
   var dataNode = doc.createElement("data");
@@ -168,9 +187,25 @@ GeneratedDataset.prototype.toXmlString = function() {
       });
       donorNode.appendChild(matchesNode);
     }
+    if (fullDetails) {
+      donorNode.setAttribute("bloodtype", donor.bt);
+    }
     dataNode.appendChild(donorNode); 
   }
   doc.appendChild(dataNode);
+  if (fullDetails) {
+    var recipsObj = doc.createElement("recipients");
+    for (var i=0; i < this.recipients.length; i++) {
+      var recip = this.recipients[i];
+      var recipObj = doc.createElement("recipient");
+      recipObj.setAttribute("recip_id", recip.id);
+      recipObj.setAttribute("cPRA", recip.crf);
+      recipObj.setAttribute("bloodtype", recip.bt);
+      recipObj.setAttribute("hasBloodCompatibleDonor", recip.hasBloodCompatibleDonor);
+      recipsObj.appendChild(recipObj);
+    }
+    doc.appendChild(recipsObj)
+  }
   return (new XMLSerializer()).serializeToString(doc);
 }
 GeneratedDataset.prototype.getDonorCount = function() {
@@ -178,4 +213,11 @@ GeneratedDataset.prototype.getDonorCount = function() {
 }
 GeneratedDataset.prototype.getDonorAt = function(index) {
   return this.data[index];
+}
+
+GeneratedDataset.prototype.getRecipCount = function() {
+  return this.recipients.length;
+}
+GeneratedDataset.prototype.getRecipAt = function(index) {
+  return this.recipients[index];
 }

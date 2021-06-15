@@ -13,6 +13,7 @@ function BloodTypeDistribution(probO, probA, probB, probAB) {
   this.probB = probB;
   this.probAB = probAB;
 }
+
 BloodTypeDistribution.prototype.draw = function() {
   var r = Math.random();
   if (r <= this.probO)

@@ -132,6 +132,38 @@ kidneyControllers.controller('ConverterCtrl', function($scope) {
 
 
 kidneyControllers.controller('GeneratorCtrl', function($scope) {
+  angular.element(document).ready(function() {
+  $(".split-donors").hide();
+  $("input[name=splitdonors]").on("change", function() {
+    var val = $(this).val();
+    if (val == "off") {
+      $(".split-donors").hide();
+      $(".nosplit-donors").show();
+    } else {
+      $(".nosplit-donors").hide();
+      $(".split-donors").show();
+    }
+  });
+  $(".splitpra").hide();
+  $("input[name=splitcpra]").on("change", function() {
+    var val = $(this).val();
+    if (val == "off") {
+      $(".splitpra").hide();
+      $(".nosplitpra").show();
+    } else {
+      $(".nosplitpra").hide();
+      $(".splitpra").show();
+    }
+  });
+  $("input[name=enableTuning]").on("change", function() {
+    if ($(this).is(":checked")) {
+      $(".tuning").prop("disabled", false);
+    } else {
+      $(".tuning").prop("disabled", true);
+    }
+  });
+
+  });
   $scope.donorTypeO = 0.4;
   $scope.donorTypeA = 0.4;
   $scope.donorTypeB = 0.1;
@@ -144,6 +176,41 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
   $scope.patientTypeB = 0.1;
   $scope.patientTypeAB = function(x) {
       return +(1-$scope.patientTypeO-$scope.patientTypeA-$scope.patientTypeB).toFixed(4);
+  };
+
+  $scope.donorTypeOByPatientO = 0.4;
+  $scope.donorTypeAByPatientO = 0.4;
+  $scope.donorTypeBByPatientO = 0.1;
+  $scope.donorTypeABByPatientO = function(x) {
+      return +(1-$scope.donorTypeOByPatientO-$scope.donorTypeAByPatientO-$scope.donorTypeBByPatientO).toFixed(4);
+  };
+
+  $scope.donorTypeOByPatientA = 0.4;
+  $scope.donorTypeAByPatientA = 0.4;
+  $scope.donorTypeBByPatientA = 0.1;
+  $scope.donorTypeABByPatientA = function(x) {
+      return +(1-$scope.donorTypeOByPatientA-$scope.donorTypeAByPatientA-$scope.donorTypeBByPatientA).toFixed(4);
+  };
+
+  $scope.donorTypeOByPatientB = 0.4;
+  $scope.donorTypeAByPatientB = 0.4;
+  $scope.donorTypeBByPatientB = 0.1;
+  $scope.donorTypeABByPatientB = function(x) {
+      return +(1-$scope.donorTypeOByPatientB-$scope.donorTypeAByPatientB-$scope.donorTypeBByPatientB).toFixed(4);
+  };
+
+  $scope.donorTypeOByPatientAB = 0.4;
+  $scope.donorTypeAByPatientAB = 0.4;
+  $scope.donorTypeBByPatientAB = 0.1;
+  $scope.donorTypeABByPatientAB = function(x) {
+      return +(1-$scope.donorTypeOByPatientAB-$scope.donorTypeAByPatientAB-$scope.donorTypeBByPatientAB).toFixed(4);
+  };
+
+  $scope.donorTypeOByPatientNDD = 0.4;
+  $scope.donorTypeAByPatientNDD = 0.4;
+  $scope.donorTypeBByPatientNDD = 0.1;
+  $scope.donorTypeABByPatientNDD = function(x) {
+      return +(1-$scope.donorTypeOByPatientNDD-$scope.donorTypeAByPatientNDD-$scope.donorTypeBByPatientNDD).toFixed(4);
   };
 
   $scope.donorsPerPatient1 = 1;
@@ -159,11 +226,19 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
 
   $scope.crfDistribution = "0.2 0.11\n0.8 0.89";
 
+  $scope.compatPraBands = "0.2 0.11\n0.8 0.89";
+  $scope.incompatPraBands = "0.2 0.11\n0.8 0.89";
+
+  $scope.compatBandsString = "0 101 0 1";
+
   $scope.fileFormat = "xml";
   $scope.patientsPerInstance = 50;
   $scope.numberOfInstances = 5;
   $scope.proportionAltruistic = 0;
 
+  $scope.tuneIters = "100";
+  $scope.tuneSize = "1000";
+  $scope.tuneErrs = "0.05";
   
   $scope.onSubmitted = function() {
     var genConfig = {
@@ -173,12 +248,6 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
         $scope.donorsPerPatient3,
         $scope.donorsPerPatient4()
       ],
-      donorBtDistribution: new BloodTypeDistribution(
-        $scope.donorTypeO,
-        $scope.donorTypeA,
-        $scope.donorTypeB,
-        $scope.donorTypeAB()
-      ),
       patientBtDistribution: new BloodTypeDistribution(
         $scope.patientTypeO,
         $scope.patientTypeA,
@@ -192,9 +261,63 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
       patientsPerInstance: $scope.patientsPerInstance,
       proportionAltruistic: $scope.proportionAltruistic,
       fileFormat: $scope.fileFormat,
-      praBandsString: $scope.crfDistribution
+      compatBandsString: $scope.compatPraBandsString,
+    }
+    if ($("input[name=splitdonors]").val() == "off") {
+      genConfig.donorBtDistribution = new BloodTypeDistribution(
+        $scope.donorTypeO,
+        $scope.donorTypeA,
+        $scope.donorTypeB,
+        $scope.donorTypeAB()
+      );
+    } else {
+      genConfig.donorBtDistributionByPatientO = new BloodTypeDistribution(
+        $scope.donorTypeOByPatientO,
+        $scope.donorTypeAByPatientO,
+        $scope.donorTypeBByPatientO,
+        $scope.donorTypeABByPatientO()
+      );
+      genConfig.donorBtDistributionByPatientA = new BloodTypeDistribution(
+        $scope.donorTypeOByPatientA,
+        $scope.donorTypeAByPatientA,
+        $scope.donorTypeBByPatientA,
+        $scope.donorTypeABByPatientA()
+      );
+      genConfig.donorBtDistributionByPatientB = new BloodTypeDistribution(
+        $scope.donorTypeOByPatientB,
+        $scope.donorTypeAByPatientB,
+        $scope.donorTypeBByPatientB,
+        $scope.donorTypeABByPatientB()
+      );
+      genConfig.donorBtDistributionByPatientAB = new BloodTypeDistribution(
+        $scope.donorTypeOByPatientAB,
+        $scope.donorTypeAByPatientAB,
+        $scope.donorTypeBByPatientAB,
+        $scope.donorTypeABByPatientAB()
+      );
+      genConfig.donorBtDistributionByPatientNDD = new BloodTypeDistribution(
+        $scope.donorTypeOByPatientNDD,
+        $scope.donorTypeAByPatientNDD,
+        $scope.donorTypeBByPatientNDD,
+        $scope.donorTypeABByPatientNDD()
+      );
+    }
+    if ($("input[name=splitcpra]").val() == "off") {
+      genConfig.praBandsString = $scope.crfDistribution
+    } else {
+      genConfig.compatPraBandsString = $scope.compatPraBands
+      genConfig.incompatPraBandsString = $scope.incompatPraBands
     }
     console.log(genConfig);
+    if ($("input[name=enableTuning]").is(":checked")) {
+      var tuneIters = +$("input[name=tuneIters]").val();
+      var tuneSize = +$("input[name=tuneSize]").val();
+      var tuneError = +$("input[name=tuneErrs]").val();
+      var tuneBloodGroups = $("input[name=tuneBloodGroups").is(":checked");
+      var tuneDonors = $("input[name=tuneDonors").is(":checked");
+      var tunePRA = $("input[name=tunePRA").is(":checked");
+      genConfig = TuneConfig(genConfig, tuneIters, tuneError, tuneSize, tuneBloodGroups, tuneDonors, tunePRA);
+    }
     var gen = new KidneyGenerator(genConfig);
     var zip = new JSZip();
     zip.file("config.json", JSON.stringify(genConfig, undefined, 2));

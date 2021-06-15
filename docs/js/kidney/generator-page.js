@@ -1,5 +1,4 @@
 $(document).foundation();
-
 /*$.fn.serializeObject = function() {
   // http://stackoverflow.com/a/1186309
   var o = {};
