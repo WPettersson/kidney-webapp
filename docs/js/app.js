@@ -20,5 +20,9 @@ kidneyApp.config(["$routeProvider",
         templateUrl: "partials/converter.html",
         controller: "ConverterCtrl"
       })
+      .when("/about", {
+        templateUrl: "partials/about.html",
+        controller: "AboutCtrl"
+      })
       .otherwise({redirectTo: ""})
 }]);

@@ -388,4 +388,5 @@ var generateInstances = function(zip, gen, genConfig, i) {
 */
 
 kidneyControllers.controller('HomeCtrl', function($scope) {});
+kidneyControllers.controller('AboutCtrl', function($scope) {});
 
