@@ -398,9 +398,9 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
     $scope.donorTypeBByPatientAB = 0.1910;
     $scope.donorTypeOByPatientAB = 0.3166;
 
-    $scope.donorTypeAByPatientNDD = 0.2698;
-    $scope.donorTypeBByPatientNDD = 0.0635;
-    $scope.donorTypeOByPatientNDD = 0.3333;
+    $scope.donorTypeAByPatientNDD = 0.399;
+    $scope.donorTypeBByPatientNDD = 0.0939;
+    $scope.donorTypeOByPatientNDD = 0.493;
     $(".nosplit-donors").hide();
     $(".split-donors").show();
     $("input[name=splitdonors][value=on]").prop("checked", true);
