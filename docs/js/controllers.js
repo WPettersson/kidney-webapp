@@ -93,7 +93,7 @@ kidneyControllers.controller('ConverterCtrl', function($scope) {
             var content = zip.generate({type:"blob"});
             saveAs(content, "converted.zip");
           }
-        }; 
+        };
       })();
 
       reader.readAsText(selectedFile);
@@ -239,7 +239,7 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
   $scope.tuneIters = "100";
   $scope.tuneSize = "1000";
   $scope.tuneErrs = "0.05";
-  
+
   $scope.onSubmitted = function() {
     var genConfig = {
       donorCountProbabilities: [
@@ -347,6 +347,32 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
 
     $scope.proportionAltruistic = 0;
   };
+
+  $scope.loadSplitPRA = function() {
+    $scope.compatPraBands = "0.0434637245068539 0\n0.00635239050484788 0.01 0.1\n0.00267469073888332 0.1 0.2\n0.00601805416248746 0.2 0.3\n0.00835840855901037 0.3 0.4\n0.0106987629555333 0.4 0.5\n0.0217318622534269 0.5 0.6\n0.0290872617853561 0.6 0.7\n0.0391173520561685 0.7 0.8\n0.0257438983617519 0.8 0.85\n0.0307589434971581 0.85 0.9\n0.0113674356402541 0.9\n0.0106987629555333 0.91\n0.0157138080909395 0.92\n0.0317619525242394 0.93\n0.0190571715145436 0.94\n0.0197258441992645 0.95\n0.0240722166499498 0.96\n0.0534938147776663 0.97\n0.0929455031761953 0.98\n0.180207288532263 0.99\n0.316950852557673 1\n";
+    $scope.incompatPraBands = "0.356760886172651 0\n0.038961038961039 0.01 0.1\n0.0133689839572193 0.1 0.2\n0.0106951871657754 0.2 0.3\n0.0210084033613445 0.3 0.4\n0.0244461420932009 0.4 0.5\n0.0336134453781513 0.5 0.6\n0.0305576776165011 0.6 0.7\n0.0427807486631016 0.7 0.8\n0.0355233002291826 0.8 0.85\n0.0458365164247517 0.85 0.9\n0.00649350649350649 0.9\n0.0126050420168067 0.91\n0.0286478227654698 0.92\n0.00649350649350649 0.93\n0.00763941940412529 0.94\n0.0156608097784568 0.95\n0.0236822001527884 0.96\n0.0152788388082506 0.97\n0.0252100840336134 0.98\n0.0966386554621849 0.99\n0.108097784568373 1\n";
+    $scope.splitcpra = true;
+  }
+
+  $scope.loadBandedXMatch = function() {
+    $scope.compatBandsString = "0.0 0.50 0.4349 0.33012\n0.50 0.95 0.342 0.64194\n0.95 0.96 0.942\n0.96 0.97 0.947\n0.97 0.98 0.975\n0.98 0.99 0.985\n0.99 1 0.985\n1 1.01 0.988";
+  }
+
+  $scope.loadBandedXMatchPRA0 = function() {
+    $scope.compatBandsString = "0.0 0.01 SPLIT 0.259681093394077-0.75-1,0.14123006833713-0.5-0.75,0.0911161731207289-0.25-0.5,0.0592255125284738-0.1-0.25,0.0546697038724375-0.04-0.1,0.020501138952164-0.03-0.04,0.0387243735763098-0.02-0.03,0.0774487471526196-0.01-0.02,0.0683371298405467-0-0.01,0.18906605922551-0\n0.01 0.50 0.4349 0.33012\n0.50 0.95 0.342 0.64194\n0.95 0.96 0.942\n0.96 0.97 0.947\n0.97 0.98 0.975\n0.98 0.99 0.985\n0.99 1 0.985\n1 1.01 0.988";
+  }
+
+  $scope.loadCalcXMatch = function() {
+    $scope.compatBandsString = "0 1 0.45 0.51";
+  }
+
+  $scope.loadTweakXMatch = function() {
+    $scope.compatBandsString = "0 1 0.45 0.55";
+  }
+  $scope.loadTweakXMatchPRA0 = function() {
+    $scope.compatBandsString = "0.0 0.01 SPLIT 0.259681093394077-0.75-1,0.14123006833713-0.5-0.75,0.0911161731207289-0.25-0.5,0.0592255125284738-0.1-0.25,0.0546697038724375-0.04-0.1,0.020501138952164-0.03-0.04,0.0387243735763098-0.02-0.03,0.0774487471526196-0.01-0.02,0.0683371298405467-0-0.01,0.18906605922551-0\n0.01 1.01 0.45 0.55";
+  }
+
 });
 
 // TODO: put this somewhere other than global scope
@@ -379,7 +405,7 @@ var generateInstances = function(zip, gen, genConfig, i) {
   ////console.log(genConfig);
   var gen = new KidneyGenerator(genConfig);
   var zip = new JSZip();
-  
+
   $("#progress-message").text("Generating instance 0");
   setTimeout(function() {
     generateInstances(zip, gen, 0);
