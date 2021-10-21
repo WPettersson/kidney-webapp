@@ -375,6 +375,37 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
     $scope.compatBandsString = "0.0 0.01 SPLIT 0.259681093394077-0.75-1,0.14123006833713-0.5-0.75,0.0911161731207289-0.25-0.5,0.0592255125284738-0.1-0.25,0.0546697038724375-0.04-0.1,0.020501138952164-0.03-0.04,0.0387243735763098-0.02-0.03,0.0774487471526196-0.01-0.02,0.0683371298405467-0-0.01,0.18906605922551-0\n0.01 1.01 0.45 0.55";
   }
 
+  $scope.loadRecipBlood = function() {
+    $scope.patientTypeA = 0.2325;
+    $scope.patientTypeB = 0.1119;
+    $scope.patientTypeO = 0.6293;
+  }
+
+  $scope.loadSplitDonorBlood = function() {
+    $scope.donorTypeAByPatientO = 0.4899;
+    $scope.donorTypeBByPatientO = 0.1219;
+    $scope.donorTypeOByPatientO = 0.3721;
+
+    $scope.donorTypeAByPatientA = 0.6039;
+    $scope.donorTypeBByPatientA = 0.0907;
+    $scope.donorTypeOByPatientA = 0.2783;
+
+    $scope.donorTypeAByPatientB = 0.2719;
+    $scope.donorTypeBByPatientB = 0.3689;
+    $scope.donorTypeOByPatientB = 0.2910;
+
+    $scope.donorTypeAByPatientAB = 0.4271;
+    $scope.donorTypeBByPatientAB = 0.1910;
+    $scope.donorTypeOByPatientAB = 0.3166;
+
+    $scope.donorTypeAByPatientNDD = 0.2698;
+    $scope.donorTypeBByPatientNDD = 0.0635;
+    $scope.donorTypeOByPatientNDD = 0.3333;
+    $(".nosplit-donors").hide();
+    $(".split-donors").show();
+    $("input[name=splitdonors][value=on]").prop("checked", true);
+  }
+
 });
 
 // TODO: put this somewhere other than global scope
