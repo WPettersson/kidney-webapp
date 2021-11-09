@@ -82,7 +82,6 @@ kidneyControllers.controller('ConverterCtrl', function($scope) {
           } else {
             iDataset.readInputString(e.target.result);
           }
-          console.log(iDataset);
           nConverted++;
           if ($scope.fileFormat==="xml") {
             zip.file(baseName + ".xml", iDataset.toXmlString());
@@ -308,7 +307,10 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
       genConfig.compatPraBandsString = $scope.compatPraBands
       genConfig.incompatPraBandsString = $scope.incompatPraBands
     }
-    console.log(genConfig);
+    genConfig.fullDetails = false;
+    if ($("input[name=extraDetails]").is(":checked")) {
+      genConfig.fullDetails = true;
+    }
     if ($("input[name=enableTuning]").is(":checked")) {
       var tuneIters = +$("input[name=tuneIters]").val();
       var tuneSize = +$("input[name=tuneSize]").val();
@@ -413,10 +415,11 @@ var generateInstances = function(zip, gen, genConfig, i) {
   var generatedDataset =
       gen.generateDataset(genConfig.patientsPerInstance,
                           genConfig.proportionAltruistic);
+  console.log(genConfig.fullDetails);
   if (genConfig.fileFormat==="xml") {
-    zip.file("genxml-" + i + ".xml", generatedDataset.toXmlString());
+    zip.file("genxml-" + i + ".xml", generatedDataset.toXmlString(genConfig.fullDetails));
   } else if (genConfig.fileFormat==="json") {
-    zip.file("genjson-" + i + ".json", generatedDataset.toJsonString());
+    zip.file("genjson-" + i + ".json", generatedDataset.toJsonString(genConfig.fullDetails));
   }
 
   if (++i < genConfig.numberOfInstances) {

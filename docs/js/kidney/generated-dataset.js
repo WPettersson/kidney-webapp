@@ -188,11 +188,10 @@ GeneratedDataset.prototype.toXmlString = function(fullDetails) {
       donorNode.appendChild(matchesNode);
     }
     if (fullDetails) {
-      donorNode.setAttribute("bloodtype", donor.bt);
+      donorNode.setAttribute("bloodtype", donor.bt.type);
     }
     dataNode.appendChild(donorNode); 
   }
-  doc.appendChild(dataNode);
   if (fullDetails) {
     var recipsObj = doc.createElement("recipients");
     for (var i=0; i < this.recipients.length; i++) {
@@ -200,12 +199,13 @@ GeneratedDataset.prototype.toXmlString = function(fullDetails) {
       var recipObj = doc.createElement("recipient");
       recipObj.setAttribute("recip_id", recip.id);
       recipObj.setAttribute("cPRA", recip.crf);
-      recipObj.setAttribute("bloodtype", recip.bt);
+      recipObj.setAttribute("bloodtype", recip.bt.type);
       recipObj.setAttribute("hasBloodCompatibleDonor", recip.hasBloodCompatibleDonor);
       recipsObj.appendChild(recipObj);
     }
-    doc.appendChild(recipsObj)
+    dataNode.appendChild(recipsObj)
   }
+  doc.appendChild(dataNode);
   return (new XMLSerializer()).serializeToString(doc);
 }
 GeneratedDataset.prototype.getDonorCount = function() {
