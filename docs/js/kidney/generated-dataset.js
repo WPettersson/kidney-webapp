@@ -193,7 +193,9 @@ GeneratedDataset.prototype.toXmlString = function(fullDetails) {
     dataNode.appendChild(donorNode); 
   }
   doc.appendChild(dataNode);
-  if (fullDetails) {
+  // Not sure how to insert this into XML, we cannot do another
+  // doc.appendChild() as a document can only have one child.
+  if (false && fullDetails) {
     var recipsObj = doc.createElement("recipients");
     for (var i=0; i < this.recipients.length; i++) {
       var recip = this.recipients[i];
