@@ -8,7 +8,26 @@
 				
 				<div class="large-12 columns">
 					<form id="generator-form" name="genform" ng-submit="onSubmitted()" novalidate>
-							<div class="large-6 medium-12 small-12 columns">
+							<div class="large-12 medium-12 small-12 columns">
+								<div class="panel">
+									<div class="row">
+										<div class="large-12 medium-12 small-12 columns">
+											<h3>FAQ</h3>
+											<ul>
+												<li>2024 / 03 / 27 - Note that a bug was discovered
+													today, and that any instances generated before this
+													date may not have the correct cPRA distribution (if
+													the SplitPRA option was used) or blood group
+													distributions for donors (if the "Use donor blood
+													group distributions from paper" option was used). I
+													apologise for any inconvenience caused.
+												</li>
+										</div>
+									</div>
+								</div>
+							</div>
+						<hr />
+							<div class="large-12 medium-12 small-12 columns">
 								<div class="panel">
 									<p><b>Patient blood types:</b> Enter the proportion of patients in each blood group<p>
 									<div class="row">
@@ -42,8 +61,7 @@
 									</div>
 								</div>
 							</div>
-						<hr />
-						<div class="row">
+							<hr />
 							<div class="large-6 medium-12 small-12 columns">
 								<div class="panel">
 									<p>Different donor blood group distributions based on recipient blood group?</p>
@@ -261,9 +279,7 @@
 							</div>
 
 
-						</div>
-						<hr />
-						<div class="row">
+							<hr />
 
 							<div class="large-6 medium-12 small-12 columns">
 								<div class="panel">
@@ -291,7 +307,7 @@
 																			type="number" min="0" max="1" step="0.0001" ng-model-options="{ getterSetter: true }" required disabled />
 											</label>
 										</div>
-										<div class="large-12 medium-12 small-12 alert-box alert radius columns"
+										<div class="large-6 medium-12 small-12 alert-box alert radius columns"
 															 ng-show="genform.donorsPerPatient1.$error.min || genform.donorsPerPatient1.$error.max ||
 																				genform.donorsPerPatient2.$error.min || genform.donorsPerPatient2.$error.max ||
 																				genform.donorsPerPatient3.$error.min || genform.donorsPerPatient3.$error.max ||
@@ -300,7 +316,6 @@
 									</div>
 								</div>
 							</div>
-
 							<div class="large-6 medium-12 small-12 columns">
 								<div class="panel">
 									<p><b>Additional fields for compatibility with Saidman generator:</b>
@@ -329,11 +344,7 @@
 									</div>
 								</div>
 							</div>
-
-						</div>
-						<div class="row">
-
-							<div class="large-6 medium-12 small-12 columns">
+							<div class="large-12 medium-12 small-12 columns">
 								<div class="panel">
 									<p><b>Calculated panel reactive antibodies</b></p>
 									<p>
@@ -348,21 +359,17 @@
 											<input type="radio" name="splitcpra" value="on"> different
 											cPRA distributions to recipients who don&#8217;t have a blood-group compatible donor.</p>
 									<div class="row">
-										<div class="large-12 medium-12 columns nosplitpra">
+										<div class="large-6 medium-12 columns nosplitpra">
 											<label for="crfDistribution">
 												<textarea ng-model="crfDistribution" name="crfDistribution"></textarea>
 											</label>
 										</div>
-									</div>
-									<div class="row">
-										<div class="large-12 medium-12 columns splitpra">
+										<div class="large-6 medium-12 columns splitpra">
 											<label for="compatPraBands">cPRA for recipients with a blood-group compatible donor
 												<textarea ng-model="compatPraBands" name="compatPraBands"></textarea>
 											</label>
 										</div>
-									</div>
-									<div class="row">
-										<div class="large-12 medium-12 columns splitpra">
+										<div class="large-6 medium-12 columns splitpra">
 											<label for="incompatPraBands">cPRA for recipients with no blood-group compatible donor
 												<textarea ng-model="incompatPraBands" name="incompatPraBands"></textarea>
 											</label>
@@ -370,7 +377,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="large-6 medium-12 small-12 columns">
+							<div class="large-12 medium-12 small-12 columns">
 								<div class="panel">
 									<p><b>Compatibility calculations</b></p>
 									<p>
@@ -388,9 +395,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="large-6 medium-12 small-12 columns">
+							<div class="large-12 medium-12 small-12 columns">
 								<div class="panel">
 									<p><b>Tuning</b></p>
 									<p>Generators will by default discard compatible pairs. This is done to attempt to simulate the effect that occurs as compatible pairs simply arrange transplants directly and avoid kidney exchange programmes altogether.
@@ -421,7 +426,7 @@
 									</label>
 								</div>
 							</div>
-							<div class="large-6 medium-12 small-12 columns">
+							<div class="large-12 medium-12 small-12 columns">
 								<div class="panel">
 									<p><b>Other options</b><p>
 									<div class="row">
@@ -489,7 +494,7 @@
 								</div>
 							</div>
 
-							<div class="large-6 medium-12 small-12 columns">
+							<div class="large-12 medium-12 small-12 columns">
 								<h3>Preset options</h3>
 								Here we list some presets that may be useful.
 								<button class="medium radius button" type="button" ng-click="useSaidmanValues()">
