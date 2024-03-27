@@ -262,7 +262,7 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
       fileFormat: $scope.fileFormat,
       compatBandsString: $scope.compatPraBandsString,
     }
-    if ($("input[name=splitdonors]").val() == "off") {
+    if ($("input[name=splitdonors]:checked").val() == "off") {
       genConfig.donorBtDistribution = new BloodTypeDistribution(
         $scope.donorTypeO,
         $scope.donorTypeA,
@@ -301,7 +301,7 @@ kidneyControllers.controller('GeneratorCtrl', function($scope) {
         $scope.donorTypeABByPatientNDD()
       );
     }
-    if ($("input[name=splitcpra]").val() == "off") {
+    if ($("input[name=splitcpra]:checked").val() == "off") {
       genConfig.praBandsString = $scope.crfDistribution
     } else {
       genConfig.compatPraBandsString = $scope.compatPraBands
