@@ -14,6 +14,12 @@
 										<div class="large-12 medium-12 small-12 columns">
 											<h3>FAQ</h3>
 											<ul>
+												<li>2024 / 03 / 28 - I've enabled the storing of
+													additional data for XML files. Note that this is
+													stored in a &lt;recipients&gt; tag that lives inside the
+													root &lt;data&gt; tag. It is possible that some kidney
+													XML parsers won't like this.
+												</li>
 												<li>2024 / 03 / 27 - Note that a bug was discovered
 													today, and that any instances generated before this
 													date may not have the correct cPRA distribution (if
@@ -467,7 +473,7 @@
 										</div>
 										<div class="row">
 											<div class="small-6 columns">
-												<label for="extraDetails">Return extra details such as blood group and cPRA levels (only works with JSON due to file format)</label>
+												<label for="extraDetails">Return extra details such as blood group and cPRA levels</label>
 											</div>
 											<div class="small-6 columns">
 												<input ng-model="extraDetails" name="extraDetails" type="checkbox">

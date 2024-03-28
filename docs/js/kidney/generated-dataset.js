@@ -195,7 +195,7 @@ GeneratedDataset.prototype.toXmlString = function(fullDetails) {
   doc.appendChild(dataNode);
   // Not sure how to insert this into XML, we cannot do another
   // doc.appendChild() as a document can only have one child.
-  if (false && fullDetails) {
+  if (fullDetails) {
     var recipsObj = doc.createElement("recipients");
     for (var i=0; i < this.recipients.length; i++) {
       var recip = this.recipients[i];
@@ -206,7 +206,7 @@ GeneratedDataset.prototype.toXmlString = function(fullDetails) {
       recipObj.setAttribute("hasBloodCompatibleDonor", recip.hasBloodCompatibleDonor);
       recipsObj.appendChild(recipObj);
     }
-    doc.appendChild(recipsObj)
+    dataNode.appendChild(recipsObj)
   }
   return (new XMLSerializer()).serializeToString(doc);
 }
