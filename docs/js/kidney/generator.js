@@ -205,7 +205,7 @@ KidneyGenerator.prototype.drawDage = function() {
 };
 
 KidneyGenerator.prototype.drawScore = function() {
-  return Math.floor(Math.random() * 90);
+  return 1 + Math.floor(Math.random() * 90);
 };
 
 KidneyGenerator.prototype.drawIsWife = function() {
